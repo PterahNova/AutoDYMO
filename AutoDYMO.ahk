@@ -17,7 +17,9 @@ SetControlDelay 0
 ModernBrowsers := "ApplicationFrameWindow,Chrome_WidgetWin_0,Chrome_WidgetWin_1,Maxthon3Cls_MainFrm,MozillaWindowClass,Slimjet_WidgetWin_1"
 LegacyBrowsers := "IEFrame,OperaWindowClass"
 
-IniRead, dymo, config.ini, config, DYMOLabelLocation
+IniWrite, %A_ScriptDir%, config.ini, config, DYMOLabelLocation
+IniRead, dymoname, config.ini, config, DYMOLabelName
+IniRead, dymolocation, config.ini, config, DYMOLabelLocation
 IniRead, toprint, config.ini, config, URLToPrint
 
 IniRead, CurVer, config.ini, config, Version
@@ -57,7 +59,7 @@ loop {
 		clipboard:=clipboardold
 		DymoAddIn := ComObjCreate("DYMO.DymoAddIn")
 		DymoLabel := ComObjCreate("DYMO.DymoLabels")
-		DymoAddIn.Open(dymo)
+		DymoAddIn.Open(dymolocation dymoname)
 		DymoLabel.SetAddress( 1, label )
 		DymoAddIn.Print( 1, TRUE )
 goto start
