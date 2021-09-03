@@ -24,9 +24,9 @@ IniRead, CurVer, config.ini, config, Version
 UrlDownloadToFile, https://raw.githubusercontent.com/PterahNova/AutoDYMO/main/config.ini, Latest Version.ini
 IniRead, NextVer, Latest Version.ini, config, Version
 if (NextVer > CurVer) {
-	FileDelete, "%A_ScriptDir%\AutoDYMO - Updater.exe"
-	UrlDownloadToFile, https://github.com/PterahNova/AutoDYMO/releases/download/AutoDYMO-v%NextVer%/AutoDYMO.-.Updater.exe, "AutoDYMO - Updater.exe"
-	Run, "%A_ScriptDir%\AutoDYMO - Updater.exe"
+	FileDelete, "%A_ScriptDir%\AutoDYMO-Updater.exe"
+	UrlDownloadToFile, https://github.com/PterahNova/AutoDYMO/releases/download/AutoDYMO-v%NextVer%/AutoDYMO-Updater.exe, AutoDYMO-Updater.exe
+	Run, "%A_ScriptDir%\AutoDYMO-Updater.exe"
 	ExitApp
 }
 else {
