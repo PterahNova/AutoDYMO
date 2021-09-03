@@ -5,7 +5,7 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 #SingleInstance Force
 #ErrorStdOut
 SetControlDelay 0
-;Testing...
+
 ; AutoHotkey Version: AutoHotkey 1.1
 ; Language:           English
 ; Platform:           Win7 SP1 / Win8.1 / Win10
@@ -17,6 +17,10 @@ SetControlDelay 0
 ModernBrowsers := "ApplicationFrameWindow,Chrome_WidgetWin_0,Chrome_WidgetWin_1,Maxthon3Cls_MainFrm,MozillaWindowClass,Slimjet_WidgetWin_1"
 LegacyBrowsers := "IEFrame,OperaWindowClass"
 
+goto, update
+
+^+U::
+update:
 IniWrite, %A_ScriptDir%, config.ini, config, DYMOLabelLocation
 IniRead, dymoname, config.ini, config, DYMOLabelName
 IniRead, dymolocation, config.ini, config, DYMOLabelLocation
