@@ -5,7 +5,7 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 #SingleInstance Force
 #ErrorStdOut
 SetControlDelay 0
-
+;Testing...
 ; AutoHotkey Version: AutoHotkey 1.1
 ; Language:           English
 ; Platform:           Win7 SP1 / Win8.1 / Win10
@@ -13,12 +13,27 @@ SetControlDelay 0
 ; Short description:  Gets the URL of the current (active) browser tab for most modern browsers
 ; Last Mod:           2016-05-19
 
-;Menu, Tray, Icon, %A_ScriptDir%\RPM.bmp ; Icon
 
 ModernBrowsers := "ApplicationFrameWindow,Chrome_WidgetWin_0,Chrome_WidgetWin_1,Maxthon3Cls_MainFrm,MozillaWindowClass,Slimjet_WidgetWin_1"
 LegacyBrowsers := "IEFrame,OperaWindowClass"
+
 IniRead, dymo, config.ini, config, DYMOLabelLocation
-Iniread, toprint, config.ini, config, URLToPrint
+IniRead, toprint, config.ini, config, URLToPrint
+
+IniRead, CurVer, config.ini, config, Version
+UrlDownloadToFile, https://raw.githubusercontent.com/PterahNova/AutoDYMO/main/config.ini, Latest Version.ini
+IniRead, NextVer, Latest Version.ini, config, Version
+if (NextVer > CurVer) {
+	FileDelete, "%A_ScriptDir%\AutoDYMO - Updater.exe"
+	UrlDownloadToFile, https://github.com/PterahNova/AutoDYMO/releases/download/AutoDYMO-v%NextVer%/AutoDYMO.-.Updater.exe, "AutoDYMO - Updater.exe"
+	Run, "%A_ScriptDir%\AutoDYMO - Updater.exe"
+	ExitApp
+}
+else {
+	FileDelete, Latest Version.ini
+	goto, start
+}
+
 start:
 loop {
 	nTime := A_TickCount
@@ -32,19 +47,19 @@ loop {
 	;	MsgBox, % "Not a browser or browser not supported (" sClass ")"
 	sleep 500
 	If (sURL=toprint) {
-	clipboardold:=clipboardall
-	clipboard=
-	send, ^{a}
-	send, ^{c}
-	clipwait
-	send, ^{w}
-	label:=clipboard
-	clipboard:=clipboardold
-	DymoAddIn := ComObjCreate("DYMO.DymoAddIn")
-	DymoLabel := ComObjCreate("DYMO.DymoLabels")
-	DymoAddIn.Open(dymo)
-	DymoLabel.SetAddress( 1, label )
-	DymoAddIn.Print( 1, TRUE )
+		clipboardold:=clipboardall
+		clipboard=
+		send, ^{a}
+		send, ^{c}
+		clipwait
+		send, ^{w}
+		label:=clipboard
+		clipboard:=clipboardold
+		DymoAddIn := ComObjCreate("DYMO.DymoAddIn")
+		DymoLabel := ComObjCreate("DYMO.DymoLabels")
+		DymoAddIn.Open(dymo)
+		DymoLabel.SetAddress( 1, label )
+		DymoAddIn.Print( 1, TRUE )
 goto start
 }
 }
